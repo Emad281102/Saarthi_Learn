@@ -1,12 +1,40 @@
+"use client"
 import Link from "next/link"
-import Image from "next/image"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+import { authClient } from "@/lib/auth-client"
 
 export default function LoginPage() {
+  const router = useRouter()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const formData = new FormData(event.currentTarget)
+    setError(null)
+    setIsSubmitting(true)
+    const email = String(formData.get("email") || "").trim()
+    const password = String(formData.get("password") || "")
+    const rememberMe = String(formData.get("remember") || "") === "on"
+
+    const { error } = await authClient.signIn.email(
+      { email, password, callbackURL: "/dashboard", rememberMe },
+      {
+        onError: (ctx) => setError(ctx.error.message),
+        onSuccess: () => router.push("/dashboard"),
+      }
+    )
+
+    if (error) setError(String(error.message))
+    setIsSubmitting(false)
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-brand-1 via-brand-2 to-brand-3 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
@@ -24,13 +52,14 @@ export default function LoginPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={onSubmit}>
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-brand-5 font-medium">
                   Email
                 </Label>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
                   placeholder="Enter your email"
                   className="border-brand-2/20 focus:border-brand-1 focus:ring-brand-1"
@@ -43,6 +72,7 @@ export default function LoginPage() {
                 </Label>
                 <Input
                   id="password"
+                  name="password"
                   type="password"
                   placeholder="Enter your password"
                   className="border-brand-2/20 focus:border-brand-1 focus:ring-brand-1"
@@ -53,6 +83,7 @@ export default function LoginPage() {
                 <div className="flex items-center space-x-2">
                   <input
                     id="remember"
+                    name="remember"
                     type="checkbox"
                     className="rounded border-brand-2/20 text-brand-1 focus:ring-brand-1"
                   />
@@ -67,9 +98,13 @@ export default function LoginPage() {
               <Button
                 type="submit"
                 className="w-full bg-brand-1 hover:bg-brand-2 text-white font-semibold"
+                disabled={isSubmitting}
               >
-                Sign In
+                {isSubmitting ? "Signing In..." : "Sign In"}
               </Button>
+              {error && (
+                <p className="text-sm text-red-600" role="alert">{error}</p>
+              )}
             </form>
 
             <div className="relative">

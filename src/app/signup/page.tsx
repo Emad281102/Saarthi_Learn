@@ -1,13 +1,67 @@
+"use client"
 import Link from "next/link"
-import Image from "next/image"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
+import { authClient } from "@/lib/auth-client"
 
 export default function SignUpPage() {
+  const router = useRouter()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [role, setRole] = useState<string>("")
+  const [language, setLanguage] = useState<string>("")
+
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const formData = new FormData(event.currentTarget)
+    setError(null)
+    setIsSubmitting(true)
+
+    const firstName = String(formData.get("firstName") || "").trim()
+    const lastName = String(formData.get("lastName") || "").trim()
+    const name = [firstName, lastName].filter(Boolean).join(" ")
+    const email = String(formData.get("email") || "").trim()
+    const password = String(formData.get("password") || "")
+    const confirmPassword = String(formData.get("confirmPassword") || "")
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match")
+      setIsSubmitting(false)
+      return
+    }
+
+    if (!role || !language) {
+      setError("Please select your role and preferred language")
+      setIsSubmitting(false)
+      return
+    }
+
+    const { error } = await authClient.signUp.email(
+      { email, password, name, callbackURL: "/dashboard" },
+      {
+        onError: (ctx) => setError(ctx.error.message),
+        onSuccess: async () => {
+          // persist additional profile fields
+          await fetch("/api/user/profile", {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ role, language }),
+          })
+          router.push("/dashboard")
+        },
+      }
+    )
+
+    if (error) setError(String(error.message))
+    setIsSubmitting(false)
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-brand-1 via-brand-2 to-brand-3 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
@@ -25,7 +79,7 @@ export default function SignUpPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={onSubmit}>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="firstName" className="text-brand-5 font-medium">
@@ -33,6 +87,7 @@ export default function SignUpPage() {
                   </Label>
                   <Input
                     id="firstName"
+                    name="firstName"
                     type="text"
                     placeholder="First name"
                     className="border-brand-2/20 focus:border-brand-1 focus:ring-brand-1"
@@ -45,6 +100,7 @@ export default function SignUpPage() {
                   </Label>
                   <Input
                     id="lastName"
+                    name="lastName"
                     type="text"
                     placeholder="Last name"
                     className="border-brand-2/20 focus:border-brand-1 focus:ring-brand-1"
@@ -59,6 +115,7 @@ export default function SignUpPage() {
                 </Label>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
                   placeholder="Enter your email"
                   className="border-brand-2/20 focus:border-brand-1 focus:ring-brand-1"
@@ -66,25 +123,13 @@ export default function SignUpPage() {
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="phone" className="text-brand-5 font-medium">
-                  Phone Number
-                </Label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  placeholder="Enter your phone number"
-                  className="border-brand-2/20 focus:border-brand-1 focus:ring-brand-1"
-                  required
-                />
-              </div>
-
+              {/* Role */}
               <div className="space-y-2">
                 <Label htmlFor="role" className="text-brand-5 font-medium">
                   I am a
                 </Label>
-                <Select required>
-                  <SelectTrigger className="border-brand-2/20 focus:border-brand-1 focus:ring-brand-1">
+                <Select value={role} onValueChange={setRole}>
+                  <SelectTrigger id="role" className="border-brand-2/20 focus:border-brand-1 focus:ring-brand-1">
                     <SelectValue placeholder="Select your role" />
                   </SelectTrigger>
                   <SelectContent>
@@ -94,12 +139,13 @@ export default function SignUpPage() {
                 </Select>
               </div>
 
+              {/* Preferred Language */}
               <div className="space-y-2">
                 <Label htmlFor="language" className="text-brand-5 font-medium">
                   Preferred Language
                 </Label>
-                <Select required>
-                  <SelectTrigger className="border-brand-2/20 focus:border-brand-1 focus:ring-brand-1">
+                <Select value={language} onValueChange={setLanguage}>
+                  <SelectTrigger id="language" className="border-brand-2/20 focus:border-brand-1 focus:ring-brand-1">
                     <SelectValue placeholder="Select your language" />
                   </SelectTrigger>
                   <SelectContent>
@@ -117,12 +163,14 @@ export default function SignUpPage() {
                 </Select>
               </div>
 
+
               <div className="space-y-2">
                 <Label htmlFor="password" className="text-brand-5 font-medium">
                   Password
                 </Label>
                 <Input
                   id="password"
+                  name="password"
                   type="password"
                   placeholder="Create a strong password"
                   className="border-brand-2/20 focus:border-brand-1 focus:ring-brand-1"
@@ -136,6 +184,7 @@ export default function SignUpPage() {
                 </Label>
                 <Input
                   id="confirmPassword"
+                  name="confirmPassword"
                   type="password"
                   placeholder="Confirm your password"
                   className="border-brand-2/20 focus:border-brand-1 focus:ring-brand-1"
@@ -165,9 +214,13 @@ export default function SignUpPage() {
               <Button
                 type="submit"
                 className="w-full bg-brand-1 hover:bg-brand-2 text-white font-semibold"
+                disabled={isSubmitting}
               >
-                Create Account
+                {isSubmitting ? "Creating Account..." : "Create Account"}
               </Button>
+              {error && (
+                <p className="text-sm text-red-600" role="alert">{error}</p>
+              )}
             </form>
 
             <div className="relative">
