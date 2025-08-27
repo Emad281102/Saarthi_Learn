@@ -36,7 +36,7 @@ const enrolledCourses = [
     lastAccessed: "2 hours ago",
     difficulty: "Beginner",
     language: "Hindi",
-    image: "/mathematics-textbook.png",
+    image: "/logo.jpg",
   },
   {
     id: 2,
@@ -50,7 +50,7 @@ const enrolledCourses = [
     lastAccessed: "1 day ago",
     difficulty: "Beginner",
     language: "Bengali",
-    image: "/placeholder-ydxon.png",
+    image: "/logo.jpg",
   },
   {
     id: 3,
@@ -64,7 +64,7 @@ const enrolledCourses = [
     lastAccessed: "3 hours ago",
     difficulty: "Intermediate",
     language: "Hindi",
-    image: "/placeholder-9q0p7.png",
+    image: "/logo.jpg",
   },
 ]
 
@@ -78,7 +78,7 @@ const completedCourses = [
     certificateId: "CERT-001",
     timeSpent: "20h 30m",
     language: "Hindi",
-    image: "/computer-keyboard-mouse.png",
+    image: "/logo.jpg",
   },
   {
     id: 2,
@@ -89,7 +89,7 @@ const completedCourses = [
     certificateId: "CERT-002",
     timeSpent: "25h 15m",
     language: "English",
-    image: "/placeholder-ha23y.png",
+    image: "/logo.jpg",
   },
 ]
 

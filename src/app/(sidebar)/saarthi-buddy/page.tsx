@@ -193,58 +193,7 @@ export default function SaarthiBuddyPage() {
 
   return (
     <div className="h-[calc(100vh-8rem)] flex gap-6">
-      {/* Chat History Sidebar */}
-      <div className="w-80 bg-white rounded-lg border p-4 flex flex-col">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="font-semibold text-gray-900">Chat History</h2>
-          <Button variant="ghost" size="sm">
-            <RotateCcw className="h-4 w-4" />
-          </Button>
-        </div>
-
-        <ScrollArea className="flex-1">
-          <div className="space-y-2">
-            {sampleConversations.map((conversation) => (
-              <div
-                key={conversation.id}
-                className="p-3 rounded-lg border hover:bg-gray-50 cursor-pointer transition-colors"
-              >
-                <div className="flex items-start justify-between mb-1">
-                  <h3 className="font-medium text-sm line-clamp-1">
-                    {conversation.title}
-                  </h3>
-                  <Badge variant="outline" className="text-xs">
-                    {conversation.subject}
-                  </Badge>
-                </div>
-                <p className="text-xs text-gray-600 line-clamp-2 mb-2">
-                  {conversation.lastMessage}
-                </p>
-                <p className="text-xs text-gray-400">
-                  {conversation.timestamp}
-                </p>
-              </div>
-            ))}
-          </div>
-        </ScrollArea>
-
-        <Separator className="my-4" />
-
-        <div className="space-y-2">
-          <h3 className="font-medium text-sm text-gray-900">Language</h3>
-          <select
-            value={selectedLanguage}
-            onChange={(e) => setSelectedLanguage(e.target.value)}
-            className="w-full p-2 border rounded-md text-sm"
-          >
-            <option value="Hindi">हिंदी</option>
-            <option value="English">English</option>
-            <option value="Bengali">বাংলা</option>
-            <option value="Tamil">தமிழ்</option>
-          </select>
-        </div>
-      </div>
-
+      
       {/* Main Chat Area */}
       <div className="flex-1 bg-white rounded-lg border flex flex-col">
         {/* Chat Header */}

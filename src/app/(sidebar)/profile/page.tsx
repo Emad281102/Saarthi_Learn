@@ -19,7 +19,7 @@ const userProfile = {
   location: "Rajasthan, India",
   joinDate: "2023-12-01",
   bio: "Passionate learner from rural Rajasthan, pursuing education in Mathematics and Science through Saarthi-Learn platform.",
-  avatar: "/student-avatar.png",
+  avatar: "#",
   preferredLanguage: "Hindi",
   education: "Class 10th Student",
   interests: ["Mathematics", "Science", "Computer Skills"],

@@ -14,6 +14,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//pre generated models
 model User {
   id            String    @id @map("_id")
   name          String
@@ -74,4 +75,41 @@ model Verification {
   updatedAt  DateTime?
 
   @@map("verification")
+}
+
+//models for feats
+
+// model Video {
+//   id            String    @id @map("_id")
+//   title         String
+//   description   String?
+//   fileUrl       String    // Filebase bucket address for the video
+//   uploadedAt    DateTime
+//   userId        String
+//   user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   transcript    Transcript?
+//   isProcessed   Boolean   @default(false)
+
+//   @@map("video")
+// }
+
+// model Transcript {
+//   id            String    @id @map("_id")
+//   videoId       String    @unique
+//   video         Video     @relation(fields: [videoId], references: [id], onDelete: Cascade)
+//   fileUrl       String    // Filebase bucket address for transcript (PDF or text)
+//   previewText   String?   // Short preview or summary
+//   generatedAt   DateTime
+//   downloads     Int       @default(0)
+//   targetLanguage String   // User's native language (from session at signup)
+
+//   @@map("transcript")
+// }
+
+model lecture {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  videoUrl    String
+  transcriptUrl String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

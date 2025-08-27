@@ -117,6 +117,8 @@ export default function LoginPage() {
             </div>
 
             <Button
+              type="button"
+              onClick={() => authClient.signIn.social({ provider: "google", callbackURL: "/dashboard" })}
               variant="outline"
               className="w-full border-brand-2/20 hover:bg-brand-1/5 hover:border-brand-1 bg-transparent"
             >

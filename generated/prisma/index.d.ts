@@ -33,6 +33,11 @@ export type Account = $Result.DefaultSelection<Prisma.$AccountPayload>
  * 
  */
 export type Verification = $Result.DefaultSelection<Prisma.$VerificationPayload>
+/**
+ * Model lecture
+ * 
+ */
+export type lecture = $Result.DefaultSelection<Prisma.$lecturePayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -158,6 +163,16 @@ export class PrismaClient<
     * ```
     */
   get verification(): Prisma.VerificationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.lecture`: Exposes CRUD operations for the **lecture** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Lectures
+    * const lectures = await prisma.lecture.findMany()
+    * ```
+    */
+  get lecture(): Prisma.lectureDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -601,7 +616,8 @@ export namespace Prisma {
     User: 'User',
     Session: 'Session',
     Account: 'Account',
-    Verification: 'Verification'
+    Verification: 'Verification',
+    lecture: 'lecture'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -620,7 +636,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "session" | "account" | "verification"
+      modelProps: "user" | "session" | "account" | "verification" | "lecture"
       txIsolationLevel: never
     }
     model: {
@@ -920,6 +936,80 @@ export namespace Prisma {
           }
         }
       }
+      lecture: {
+        payload: Prisma.$lecturePayload<ExtArgs>
+        fields: Prisma.lectureFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.lectureFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$lecturePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.lectureFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$lecturePayload>
+          }
+          findFirst: {
+            args: Prisma.lectureFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$lecturePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.lectureFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$lecturePayload>
+          }
+          findMany: {
+            args: Prisma.lectureFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$lecturePayload>[]
+          }
+          create: {
+            args: Prisma.lectureCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$lecturePayload>
+          }
+          createMany: {
+            args: Prisma.lectureCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.lectureDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$lecturePayload>
+          }
+          update: {
+            args: Prisma.lectureUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$lecturePayload>
+          }
+          deleteMany: {
+            args: Prisma.lectureDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.lectureUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.lectureUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$lecturePayload>
+          }
+          aggregate: {
+            args: Prisma.LectureAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLecture>
+          }
+          groupBy: {
+            args: Prisma.lectureGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LectureGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.lectureFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.lectureAggregateRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          count: {
+            args: Prisma.lectureCountArgs<ExtArgs>
+            result: $Utils.Optional<LectureCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1003,6 +1093,7 @@ export namespace Prisma {
     session?: SessionOmit
     account?: AccountOmit
     verification?: VerificationOmit
+    lecture?: lectureOmit
   }
 
   /* Types for Logging */
@@ -5222,6 +5313,938 @@ export namespace Prisma {
 
 
   /**
+   * Model lecture
+   */
+
+  export type AggregateLecture = {
+    _count: LectureCountAggregateOutputType | null
+    _min: LectureMinAggregateOutputType | null
+    _max: LectureMaxAggregateOutputType | null
+  }
+
+  export type LectureMinAggregateOutputType = {
+    id: string | null
+    videoUrl: string | null
+    transcriptUrl: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LectureMaxAggregateOutputType = {
+    id: string | null
+    videoUrl: string | null
+    transcriptUrl: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LectureCountAggregateOutputType = {
+    id: number
+    videoUrl: number
+    transcriptUrl: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type LectureMinAggregateInputType = {
+    id?: true
+    videoUrl?: true
+    transcriptUrl?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LectureMaxAggregateInputType = {
+    id?: true
+    videoUrl?: true
+    transcriptUrl?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LectureCountAggregateInputType = {
+    id?: true
+    videoUrl?: true
+    transcriptUrl?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type LectureAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which lecture to aggregate.
+     */
+    where?: lectureWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of lectures to fetch.
+     */
+    orderBy?: lectureOrderByWithRelationInput | lectureOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: lectureWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` lectures from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` lectures.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned lectures
+    **/
+    _count?: true | LectureCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LectureMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LectureMaxAggregateInputType
+  }
+
+  export type GetLectureAggregateType<T extends LectureAggregateArgs> = {
+        [P in keyof T & keyof AggregateLecture]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLecture[P]>
+      : GetScalarType<T[P], AggregateLecture[P]>
+  }
+
+
+
+
+  export type lectureGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: lectureWhereInput
+    orderBy?: lectureOrderByWithAggregationInput | lectureOrderByWithAggregationInput[]
+    by: LectureScalarFieldEnum[] | LectureScalarFieldEnum
+    having?: lectureScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LectureCountAggregateInputType | true
+    _min?: LectureMinAggregateInputType
+    _max?: LectureMaxAggregateInputType
+  }
+
+  export type LectureGroupByOutputType = {
+    id: string
+    videoUrl: string
+    transcriptUrl: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: LectureCountAggregateOutputType | null
+    _min: LectureMinAggregateOutputType | null
+    _max: LectureMaxAggregateOutputType | null
+  }
+
+  type GetLectureGroupByPayload<T extends lectureGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LectureGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LectureGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LectureGroupByOutputType[P]>
+            : GetScalarType<T[P], LectureGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type lectureSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    videoUrl?: boolean
+    transcriptUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["lecture"]>
+
+
+
+  export type lectureSelectScalar = {
+    id?: boolean
+    videoUrl?: boolean
+    transcriptUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type lectureOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "videoUrl" | "transcriptUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["lecture"]>
+
+  export type $lecturePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "lecture"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      videoUrl: string
+      transcriptUrl: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["lecture"]>
+    composites: {}
+  }
+
+  type lectureGetPayload<S extends boolean | null | undefined | lectureDefaultArgs> = $Result.GetResult<Prisma.$lecturePayload, S>
+
+  type lectureCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<lectureFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LectureCountAggregateInputType | true
+    }
+
+  export interface lectureDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['lecture'], meta: { name: 'lecture' } }
+    /**
+     * Find zero or one Lecture that matches the filter.
+     * @param {lectureFindUniqueArgs} args - Arguments to find a Lecture
+     * @example
+     * // Get one Lecture
+     * const lecture = await prisma.lecture.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends lectureFindUniqueArgs>(args: SelectSubset<T, lectureFindUniqueArgs<ExtArgs>>): Prisma__lectureClient<$Result.GetResult<Prisma.$lecturePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Lecture that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {lectureFindUniqueOrThrowArgs} args - Arguments to find a Lecture
+     * @example
+     * // Get one Lecture
+     * const lecture = await prisma.lecture.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends lectureFindUniqueOrThrowArgs>(args: SelectSubset<T, lectureFindUniqueOrThrowArgs<ExtArgs>>): Prisma__lectureClient<$Result.GetResult<Prisma.$lecturePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Lecture that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {lectureFindFirstArgs} args - Arguments to find a Lecture
+     * @example
+     * // Get one Lecture
+     * const lecture = await prisma.lecture.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends lectureFindFirstArgs>(args?: SelectSubset<T, lectureFindFirstArgs<ExtArgs>>): Prisma__lectureClient<$Result.GetResult<Prisma.$lecturePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Lecture that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {lectureFindFirstOrThrowArgs} args - Arguments to find a Lecture
+     * @example
+     * // Get one Lecture
+     * const lecture = await prisma.lecture.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends lectureFindFirstOrThrowArgs>(args?: SelectSubset<T, lectureFindFirstOrThrowArgs<ExtArgs>>): Prisma__lectureClient<$Result.GetResult<Prisma.$lecturePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Lectures that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {lectureFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Lectures
+     * const lectures = await prisma.lecture.findMany()
+     * 
+     * // Get first 10 Lectures
+     * const lectures = await prisma.lecture.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const lectureWithIdOnly = await prisma.lecture.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends lectureFindManyArgs>(args?: SelectSubset<T, lectureFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$lecturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Lecture.
+     * @param {lectureCreateArgs} args - Arguments to create a Lecture.
+     * @example
+     * // Create one Lecture
+     * const Lecture = await prisma.lecture.create({
+     *   data: {
+     *     // ... data to create a Lecture
+     *   }
+     * })
+     * 
+     */
+    create<T extends lectureCreateArgs>(args: SelectSubset<T, lectureCreateArgs<ExtArgs>>): Prisma__lectureClient<$Result.GetResult<Prisma.$lecturePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Lectures.
+     * @param {lectureCreateManyArgs} args - Arguments to create many Lectures.
+     * @example
+     * // Create many Lectures
+     * const lecture = await prisma.lecture.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends lectureCreateManyArgs>(args?: SelectSubset<T, lectureCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Lecture.
+     * @param {lectureDeleteArgs} args - Arguments to delete one Lecture.
+     * @example
+     * // Delete one Lecture
+     * const Lecture = await prisma.lecture.delete({
+     *   where: {
+     *     // ... filter to delete one Lecture
+     *   }
+     * })
+     * 
+     */
+    delete<T extends lectureDeleteArgs>(args: SelectSubset<T, lectureDeleteArgs<ExtArgs>>): Prisma__lectureClient<$Result.GetResult<Prisma.$lecturePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Lecture.
+     * @param {lectureUpdateArgs} args - Arguments to update one Lecture.
+     * @example
+     * // Update one Lecture
+     * const lecture = await prisma.lecture.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends lectureUpdateArgs>(args: SelectSubset<T, lectureUpdateArgs<ExtArgs>>): Prisma__lectureClient<$Result.GetResult<Prisma.$lecturePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Lectures.
+     * @param {lectureDeleteManyArgs} args - Arguments to filter Lectures to delete.
+     * @example
+     * // Delete a few Lectures
+     * const { count } = await prisma.lecture.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends lectureDeleteManyArgs>(args?: SelectSubset<T, lectureDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Lectures.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {lectureUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Lectures
+     * const lecture = await prisma.lecture.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends lectureUpdateManyArgs>(args: SelectSubset<T, lectureUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Lecture.
+     * @param {lectureUpsertArgs} args - Arguments to update or create a Lecture.
+     * @example
+     * // Update or create a Lecture
+     * const lecture = await prisma.lecture.upsert({
+     *   create: {
+     *     // ... data to create a Lecture
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Lecture we want to update
+     *   }
+     * })
+     */
+    upsert<T extends lectureUpsertArgs>(args: SelectSubset<T, lectureUpsertArgs<ExtArgs>>): Prisma__lectureClient<$Result.GetResult<Prisma.$lecturePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Lectures that matches the filter.
+     * @param {lectureFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const lecture = await prisma.lecture.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: lectureFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a Lecture.
+     * @param {lectureAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const lecture = await prisma.lecture.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: lectureAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
+
+
+    /**
+     * Count the number of Lectures.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {lectureCountArgs} args - Arguments to filter Lectures to count.
+     * @example
+     * // Count the number of Lectures
+     * const count = await prisma.lecture.count({
+     *   where: {
+     *     // ... the filter for the Lectures we want to count
+     *   }
+     * })
+    **/
+    count<T extends lectureCountArgs>(
+      args?: Subset<T, lectureCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LectureCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Lecture.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LectureAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LectureAggregateArgs>(args: Subset<T, LectureAggregateArgs>): Prisma.PrismaPromise<GetLectureAggregateType<T>>
+
+    /**
+     * Group by Lecture.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {lectureGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends lectureGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: lectureGroupByArgs['orderBy'] }
+        : { orderBy?: lectureGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, lectureGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLectureGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the lecture model
+   */
+  readonly fields: lectureFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for lecture.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__lectureClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the lecture model
+   */
+  interface lectureFieldRefs {
+    readonly id: FieldRef<"lecture", 'String'>
+    readonly videoUrl: FieldRef<"lecture", 'String'>
+    readonly transcriptUrl: FieldRef<"lecture", 'String'>
+    readonly createdAt: FieldRef<"lecture", 'DateTime'>
+    readonly updatedAt: FieldRef<"lecture", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * lecture findUnique
+   */
+  export type lectureFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the lecture
+     */
+    select?: lectureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the lecture
+     */
+    omit?: lectureOmit<ExtArgs> | null
+    /**
+     * Filter, which lecture to fetch.
+     */
+    where: lectureWhereUniqueInput
+  }
+
+  /**
+   * lecture findUniqueOrThrow
+   */
+  export type lectureFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the lecture
+     */
+    select?: lectureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the lecture
+     */
+    omit?: lectureOmit<ExtArgs> | null
+    /**
+     * Filter, which lecture to fetch.
+     */
+    where: lectureWhereUniqueInput
+  }
+
+  /**
+   * lecture findFirst
+   */
+  export type lectureFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the lecture
+     */
+    select?: lectureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the lecture
+     */
+    omit?: lectureOmit<ExtArgs> | null
+    /**
+     * Filter, which lecture to fetch.
+     */
+    where?: lectureWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of lectures to fetch.
+     */
+    orderBy?: lectureOrderByWithRelationInput | lectureOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for lectures.
+     */
+    cursor?: lectureWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` lectures from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` lectures.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of lectures.
+     */
+    distinct?: LectureScalarFieldEnum | LectureScalarFieldEnum[]
+  }
+
+  /**
+   * lecture findFirstOrThrow
+   */
+  export type lectureFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the lecture
+     */
+    select?: lectureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the lecture
+     */
+    omit?: lectureOmit<ExtArgs> | null
+    /**
+     * Filter, which lecture to fetch.
+     */
+    where?: lectureWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of lectures to fetch.
+     */
+    orderBy?: lectureOrderByWithRelationInput | lectureOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for lectures.
+     */
+    cursor?: lectureWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` lectures from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` lectures.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of lectures.
+     */
+    distinct?: LectureScalarFieldEnum | LectureScalarFieldEnum[]
+  }
+
+  /**
+   * lecture findMany
+   */
+  export type lectureFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the lecture
+     */
+    select?: lectureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the lecture
+     */
+    omit?: lectureOmit<ExtArgs> | null
+    /**
+     * Filter, which lectures to fetch.
+     */
+    where?: lectureWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of lectures to fetch.
+     */
+    orderBy?: lectureOrderByWithRelationInput | lectureOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing lectures.
+     */
+    cursor?: lectureWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` lectures from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` lectures.
+     */
+    skip?: number
+    distinct?: LectureScalarFieldEnum | LectureScalarFieldEnum[]
+  }
+
+  /**
+   * lecture create
+   */
+  export type lectureCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the lecture
+     */
+    select?: lectureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the lecture
+     */
+    omit?: lectureOmit<ExtArgs> | null
+    /**
+     * The data needed to create a lecture.
+     */
+    data: XOR<lectureCreateInput, lectureUncheckedCreateInput>
+  }
+
+  /**
+   * lecture createMany
+   */
+  export type lectureCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many lectures.
+     */
+    data: lectureCreateManyInput | lectureCreateManyInput[]
+  }
+
+  /**
+   * lecture update
+   */
+  export type lectureUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the lecture
+     */
+    select?: lectureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the lecture
+     */
+    omit?: lectureOmit<ExtArgs> | null
+    /**
+     * The data needed to update a lecture.
+     */
+    data: XOR<lectureUpdateInput, lectureUncheckedUpdateInput>
+    /**
+     * Choose, which lecture to update.
+     */
+    where: lectureWhereUniqueInput
+  }
+
+  /**
+   * lecture updateMany
+   */
+  export type lectureUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update lectures.
+     */
+    data: XOR<lectureUpdateManyMutationInput, lectureUncheckedUpdateManyInput>
+    /**
+     * Filter which lectures to update
+     */
+    where?: lectureWhereInput
+    /**
+     * Limit how many lectures to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * lecture upsert
+   */
+  export type lectureUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the lecture
+     */
+    select?: lectureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the lecture
+     */
+    omit?: lectureOmit<ExtArgs> | null
+    /**
+     * The filter to search for the lecture to update in case it exists.
+     */
+    where: lectureWhereUniqueInput
+    /**
+     * In case the lecture found by the `where` argument doesn't exist, create a new lecture with this data.
+     */
+    create: XOR<lectureCreateInput, lectureUncheckedCreateInput>
+    /**
+     * In case the lecture was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<lectureUpdateInput, lectureUncheckedUpdateInput>
+  }
+
+  /**
+   * lecture delete
+   */
+  export type lectureDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the lecture
+     */
+    select?: lectureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the lecture
+     */
+    omit?: lectureOmit<ExtArgs> | null
+    /**
+     * Filter which lecture to delete.
+     */
+    where: lectureWhereUniqueInput
+  }
+
+  /**
+   * lecture deleteMany
+   */
+  export type lectureDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which lectures to delete
+     */
+    where?: lectureWhereInput
+    /**
+     * Limit how many lectures to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * lecture findRaw
+   */
+  export type lectureFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * lecture aggregateRaw
+   */
+  export type lectureAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * lecture without action
+   */
+  export type lectureDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the lecture
+     */
+    select?: lectureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the lecture
+     */
+    omit?: lectureOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -5283,6 +6306,17 @@ export namespace Prisma {
   };
 
   export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
+
+
+  export const LectureScalarFieldEnum: {
+    id: 'id',
+    videoUrl: 'videoUrl',
+    transcriptUrl: 'transcriptUrl',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type LectureScalarFieldEnum = (typeof LectureScalarFieldEnum)[keyof typeof LectureScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -5658,6 +6692,58 @@ export namespace Prisma {
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Verification"> | Date | string | null
   }
 
+  export type lectureWhereInput = {
+    AND?: lectureWhereInput | lectureWhereInput[]
+    OR?: lectureWhereInput[]
+    NOT?: lectureWhereInput | lectureWhereInput[]
+    id?: StringFilter<"lecture"> | string
+    videoUrl?: StringFilter<"lecture"> | string
+    transcriptUrl?: StringNullableFilter<"lecture"> | string | null
+    createdAt?: DateTimeFilter<"lecture"> | Date | string
+    updatedAt?: DateTimeFilter<"lecture"> | Date | string
+  }
+
+  export type lectureOrderByWithRelationInput = {
+    id?: SortOrder
+    videoUrl?: SortOrder
+    transcriptUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type lectureWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: lectureWhereInput | lectureWhereInput[]
+    OR?: lectureWhereInput[]
+    NOT?: lectureWhereInput | lectureWhereInput[]
+    videoUrl?: StringFilter<"lecture"> | string
+    transcriptUrl?: StringNullableFilter<"lecture"> | string | null
+    createdAt?: DateTimeFilter<"lecture"> | Date | string
+    updatedAt?: DateTimeFilter<"lecture"> | Date | string
+  }, "id">
+
+  export type lectureOrderByWithAggregationInput = {
+    id?: SortOrder
+    videoUrl?: SortOrder
+    transcriptUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: lectureCountOrderByAggregateInput
+    _max?: lectureMaxOrderByAggregateInput
+    _min?: lectureMinOrderByAggregateInput
+  }
+
+  export type lectureScalarWhereWithAggregatesInput = {
+    AND?: lectureScalarWhereWithAggregatesInput | lectureScalarWhereWithAggregatesInput[]
+    OR?: lectureScalarWhereWithAggregatesInput[]
+    NOT?: lectureScalarWhereWithAggregatesInput | lectureScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"lecture"> | string
+    videoUrl?: StringWithAggregatesFilter<"lecture"> | string
+    transcriptUrl?: StringNullableWithAggregatesFilter<"lecture"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"lecture"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"lecture"> | Date | string
+  }
+
   export type UserCreateInput = {
     id: string
     name: string
@@ -5984,6 +7070,58 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type lectureCreateInput = {
+    id?: string
+    videoUrl: string
+    transcriptUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type lectureUncheckedCreateInput = {
+    id?: string
+    videoUrl: string
+    transcriptUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type lectureUpdateInput = {
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    transcriptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type lectureUncheckedUpdateInput = {
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    transcriptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type lectureCreateManyInput = {
+    id?: string
+    videoUrl: string
+    transcriptUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type lectureUpdateManyMutationInput = {
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    transcriptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type lectureUncheckedUpdateManyInput = {
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    transcriptUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -6282,6 +7420,30 @@ export namespace Prisma {
     identifier?: SortOrder
     value?: SortOrder
     expiresAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type lectureCountOrderByAggregateInput = {
+    id?: SortOrder
+    videoUrl?: SortOrder
+    transcriptUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type lectureMaxOrderByAggregateInput = {
+    id?: SortOrder
+    videoUrl?: SortOrder
+    transcriptUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type lectureMinOrderByAggregateInput = {
+    id?: SortOrder
+    videoUrl?: SortOrder
+    transcriptUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }

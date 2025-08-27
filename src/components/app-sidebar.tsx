@@ -8,6 +8,7 @@ import {
   GraduationCap,
   User,
   SettingsIcon,
+  FileText
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -51,6 +52,11 @@ const navigation = [
     name: "My Learning",
     href: "/my-learning",
     icon: GraduationCap,
+  },
+  {
+    name: "Saarthi-Notes",
+    href: "/saarthi-notes",
+    icon: FileText,
   },
 ];
 
@@ -106,7 +112,7 @@ export function AppSidebar() {
           <DropdownMenuTrigger asChild>
             <button className="flex items-center space-x-3 w-full p-3 rounded-lg hover:bg-brand-4 text-gray-300 hover:text-white">
               <Avatar className="h-8 w-8">
-                <AvatarImage src="/student-avatar.png" />
+                <AvatarImage src="#" />
                 <AvatarFallback className="bg-brand-1 text-white">
                   ST
                 </AvatarFallback>
