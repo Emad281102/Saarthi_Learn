@@ -170,7 +170,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "E:\\Major_Project\\saarthi-learn\\generated\\prisma",
+      "value": "E:\\Saarthi\\saarthi-learn\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -184,12 +184,11 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "E:\\Major_Project\\saarthi-learn\\prisma\\schema.prisma",
+    "sourceFilePath": "E:\\Saarthi\\saarthi-learn\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../../prisma",
   "clientVersion": "6.14.0",
@@ -198,6 +197,7 @@ const config = {
     "db"
   ],
   "activeProvider": "mongodb",
+  "postinstall": true,
   "inlineDatasources": {
     "db": {
       "url": {
